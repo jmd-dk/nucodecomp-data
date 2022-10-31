@@ -107,6 +107,7 @@ def compute(masses, simulations, codes, redshifts, spectra, recompute=False):
                 f'{"k [h/Mpc]": <22} {"P [(Mpc/h)^3]": <24} modes',
             ]),
         )
+        print(f'Saved {os.path.relpath(filename_output)}')
 
 if __name__ == '__main__':
     compute(masses, simulations, codes, redshifts, spectra, recompute)

@@ -56,16 +56,23 @@ codespecs = {
     'despali16':       CodeSpec('despali16',       r'\texttt{Despali16}',                        '#595959', 'dotted', is_simulation=False),
 }
 
-# Patch part of Pylians to suppress unwanted output
-def _expected_Pk(*args, **kwargs):
-    with contextlib.redirect_stdout(io.StringIO()) as f:
-        results = _expected_Pk_ori(*args, **kwargs)
-    out = f.getvalue()
-    if out and not out.startswith('Time'):
-        print(out, end='')
-    return results
-_expected_Pk_ori = Pk_library.expected_Pk
-Pk_library.expected_Pk = _expected_Pk
+# Patch part of Pylians to suppress unwanted output to screen
+def patch_pylians(lib, funcname, silence=()):
+    def _func(*args, **kwargs):
+        with contextlib.redirect_stdout(io.StringIO()) as f:
+            results = func_ori(*args, **kwargs)
+        lines = f.getvalue().strip().split('\n')
+        for line in lines:
+            if not line:
+                continue
+            if any(line.startswith(s) for s in silence):
+                continue
+            print(line)
+        return results
+    func_ori = getattr(lib, funcname)
+    setattr(lib, funcname, _func)
+patch_pylians(Pk_library, 'expected_Pk', ['Time'])
+patch_pylians(Pk_library, 'XPk', ['Time', 'Computing'])
 
 # Helper functions used by the figure scripts
 def load_halo(
