@@ -2,7 +2,7 @@ from helper import *
 
 # Specifications
 mass = 0.15
-sim = '1024Mpc'
+sim = 'HR'
 codes = [
     'gadget3',
     'lgadget3',
@@ -19,9 +19,9 @@ codes = [
     'tinker10',
 ]
 z = 0
-spectra = ('cdm x halo1e+13ref', 'cdm')
+spectra = ('cdm x halo1e+13ref0', 'cdm')
 reference = 'gadget3'
-filename_figure = f'{this_dir}/../figures/figure15.pdf'
+filename_figure = f'{this_dir}/../figure/figure17.pdf'
 
 # Main function
 def plot(mass, sim, codes, z, spectra, reference, filename_figure):
@@ -55,7 +55,7 @@ def plot(mass, sim, codes, z, spectra, reference, filename_figure):
     for i, ax in enumerate(axes.flatten()):
         ax.grid()
         ax.set_xlabel(r'$k$ $[h\, \mathrm{Mpc}^{-1}]$', fontsize=13)
-        ax.set_xlim(1e-2, 5)
+        ax.set_xlim(1e-2, 10)
         ax.set_ylim(*[(1, 1.8), (1, 1.1), (-0.04, 0.1), (-0.02, 0.02)][i])
         ax.tick_params(
             direction='in', which='both',

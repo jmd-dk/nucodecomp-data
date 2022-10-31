@@ -22,31 +22,24 @@ codes = [
 z = 0
 spectrum = 'cdm'
 reference = 'gadget3'
-filename_figure = f'{this_dir}/../figures/figure14.pdf'
+filename_figure = f'{this_dir}/../figure/figure12.pdf'
 
 # Main function
 def plot(mass, simulations, codes, z, spectrum, reference, filename_figure):
     # Load and plot
     fig, axes = plt.subplots(1, len(simulations))
-    bins = np.logspace(11.7, 15, 10)
+    bins = np.logspace(11.7, 15, 15)
     for sim, ax in zip(simulations, axes):
-        bin_centers, counts_0_ref = load_halo(
-            0, sim, reference, z, spectrum, bins=bins,
-        )
-        _, counts_ref = load_halo(
+        bin_centers, counts_ref = load_halo(
             mass, sim, reference, z, spectrum, bins=bins,
         )
-        ratio_ref = counts_ref/counts_0_ref
+        mask = (counts_ref != 0)
         for code in codes:
-            _, counts_0 = load_halo(
-                0, sim, code, z, spectrum, bins=bins,
-            )
             _, counts = load_halo(
                 mass, sim, code, z, spectrum, bins=bins,
             )
-            ratio = counts/counts_0
             ax.semilogx(
-                bin_centers, ratio/ratio_ref - 1,
+                bin_centers[mask], counts[mask]/counts_ref[mask] - 1,
                 **get_plot_kwargs(code),
             )
     # Finishing touches
@@ -59,7 +52,7 @@ def plot(mass, simulations, codes, z, spectrum, reference, filename_figure):
         ax.grid()
         ax.set_xlabel(r'$M_\mathrm{200b}$ $[h^{-1} M_{\odot}]$', fontsize=13)
         ax.set_xlim(7e11, 8e14)
-        ax.set_ylim(-0.04, 0.04)
+        ax.set_ylim(-0.5, 0.3)
         ax.tick_params(
             direction='in', which='both',
             top=True, right=True, labelsize=10,
@@ -68,10 +61,14 @@ def plot(mass, simulations, codes, z, spectrum, reference, filename_figure):
             tick.set_rotation(90)
             tick.set_va('center')
         ax.yaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter('%g'))
-        ax.set_yticks([-0.02, 0, 0.02, 0.04])
+        ax.set_yticks([-0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3])
         ax.fill_between([1e+0, 1e+20], -0.01, +0.01, color='grey', alpha=0.2)
     axes[0].set_ylabel(
-        rf'$R/R^{{({codespecs[reference].label})}} - 1$',
+        (
+            rf'$\frac{{\mathrm{{d}}n}}{{\mathrm{{d}}\ln M}}/'
+            rf'{{\frac{{\mathrm{{d}}n}}{{\mathrm{{d}}\ln M}}}}^'
+            rf'{{({codespecs[reference].label})}} - 1$'
+        ),
         fontsize=13,
     )
     plt.subplots_adjust(

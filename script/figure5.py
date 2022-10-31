@@ -1,15 +1,14 @@
 from helper import *
 
 # Specifications
-masses = [0.3, 0.6]
-sim = 'fiducial'
+mass = 0.15
+simulations = ['1024Mpc', 'HR']
 codes = [
     'gadget3',
     'lgadget3',
     'opengadget3',
     'gadget4',
     'nmgadget4',
-    'arepo',
     'concept',
     'pkdgrav3',
     'swift',
@@ -24,15 +23,15 @@ codes = [
 z = 0
 spectrum = 'cdm'
 reference = 'gadget3'
-filename_figure = f'{this_dir}/../figures/figure4.pdf'
+filename_figure = f'{this_dir}/../figure/figure5.pdf'
 
 # Main function
-def plot(masses, sim, codes, z, spectrum, reference, filename_figure):
+def plot(mass, simulations, codes, z, spectrum, reference, filename_figure):
     # Load and plot
-    boxsize, gridsize = get_boxgrid(sim)
-    fig, axes = plt.subplots(1, len(masses))
+    fig, axes = plt.subplots(1, len(simulations))
     k_desired = np.logspace(np.log10(1e-2), np.log10(1e+1), 50)
-    for mass, ax in zip(masses, axes):
+    for sim, ax in zip(simulations, axes):
+        boxsize, gridsize = get_boxgrid(sim)
         k, power_0_ref, modes = load_powerspec(
             0, sim, reference, z, spectrum, k_desired,
         )
@@ -50,16 +49,17 @@ def plot(masses, sim, codes, z, spectrum, reference, filename_figure):
             ratio = power/power_0
             ax.semilogx(k, ratio/ratio_ref - 1, **get_plot_kwargs(code))
     # Finishing touches
-    for mass, ax in zip(masses, axes):
+    for sim, ax in zip(simulations, axes):
+        boxsize, gridsize = get_boxgrid(sim)
         ax.set_title(
-            rf'${mass}\, \mathrm{{eV}}$',
-            x=0.1, y=0.9,
+            {'1024Mpc': 'larger volume', 'HR': 'higher resolution'}[sim],
+            x=0.2, y=0.9,
             bbox={'fc': 'white', 'ec': 'white'},
         )
         ax.grid()
         ax.set_xlabel(r'$k$ $[h\, \mathrm{Mpc}^{-1}]$', fontsize=13)
-        ax.set_xlim(0.01, 5)
-        ax.set_ylim(-0.04, 0.04)
+        ax.set_xlim(0.01, 5*(1 + (sim == 'HR')))
+        ax.set_ylim(-0.02, 0.02)
         ax.tick_params(
             direction='in', which='both',
             top=True, right=True, labelsize=10,
@@ -69,8 +69,8 @@ def plot(masses, sim, codes, z, spectrum, reference, filename_figure):
             tick.set_va('center')
         ax.yaxis.set_major_formatter(matplotlib.ticker.FormatStrFormatter('%g'))
         for attr in ['set_xticks', 'set_xticklabels']:
-            getattr(ax, attr)([0.01, 0.1, 1])
-        ax.set_yticks([-0.02, 0, 0.02, 0.04])
+            getattr(ax, attr)([0.01, 0.1, 1] + [10]*(sim == 'HR'))
+        ax.set_yticks([-0.01, 0, 0.01, 0.02])
         k_nyq = 2*np.pi/boxsize*(gridsize//2)
         ax.axvline(x=k_nyq, color='grey', linestyle='dashdot', lw=2)
         ax.fill_between([1e-3, 1e+3], -0.01, +0.01, color='grey', alpha=0.2)
@@ -96,5 +96,5 @@ def plot(masses, sim, codes, z, spectrum, reference, filename_figure):
     fig.savefig(filename_figure)
 
 if __name__ == '__main__':
-    plot(masses, sim, codes, z, spectrum, reference, filename_figure)
+    plot(mass, simulations, codes, z, spectrum, reference, filename_figure)
 

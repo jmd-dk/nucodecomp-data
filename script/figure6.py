@@ -16,7 +16,7 @@ codes = [
 z = 0
 spectra = ['cdm x ncdm', 'ncdm']
 reference = 'swift'
-filename_figure = f'{this_dir}/../figures/figure6.pdf'
+filename_figure = f'{this_dir}/../figure/figure6.pdf'
 
 # Main function
 def plot(mass, sim, codes, z, spectra, reference, filename_figure):

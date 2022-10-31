@@ -20,7 +20,7 @@ codes = [
 redshifts = [0, 1]
 spectrum = 'cdm'
 reference = 'gadget3'
-filename_figure = f'{this_dir}/../figures/figure9.pdf'
+filename_figure = f'{this_dir}/../figure/figure9.pdf'
 
 # Main function
 def plot(mass, sim, codes, redshifts, spectrum, reference, filename_figure):

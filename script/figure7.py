@@ -15,7 +15,7 @@ codes = [
 z = 0
 spectrum = 'cdm + ncdm'
 reference = 'gadget3'
-filename_figure = f'{this_dir}/../figures/figure7.pdf'
+filename_figure = f'{this_dir}/../figure/figure7.pdf'
 
 # Main function
 def plot(mass, sim, codes, z, spectrum, reference, filename_figure):

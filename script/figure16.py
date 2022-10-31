@@ -19,9 +19,9 @@ codes = [
     'tinker10',
 ]
 z = 0
-spectra = ('cdm x halo1e+13ref0', 'cdm')
+spectra = ('cdm x halo1e+13ref', 'cdm')
 reference = 'gadget3'
-filename_figure = f'{this_dir}/../figures/figure17.pdf'
+filename_figure = f'{this_dir}/../figure/figure16.pdf'
 
 # Main function
 def plot(mass, sim, codes, z, spectra, reference, filename_figure):
