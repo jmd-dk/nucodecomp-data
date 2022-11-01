@@ -1,7 +1,7 @@
 ## Euclid massive neutrino code comparison data
 This repository contains the main data processing pipeline used to make all
 figures included in the paper
-‘Euclid: Modelling massive neutrinos in cosmology --- a code comparison’.
+‘Euclid: Modelling massive neutrinos in cosmology — a code comparison’.
 
 
 
@@ -54,8 +54,11 @@ directory structure:
     - ⋯  (similar to `0.0eV/`)
 
 with the first-level directory labelling the simulation by the neutrino mass
-and one ‘fiducial’ (512 Mpc/h box, 512³ particles), ‘HR’ (512 Mpc/h box,
-1024³ particles) or ‘1024Mpc’ (1024Mpc Mpc/h box, 1024³ particles).
+and one of ‘fiducial’ (512 Mpc/h box, 512³ particles), ‘HR’ (512 Mpc/h box,
+1024³ particles) or ‘1024Mpc’ (1024Mpc Mpc/h box, 1024³ particles). Each
+`snapshot/` directory contains snapshot files collectively representing one
+snapshot. Snapshots are only made available for GADGET-3, the reference
+simulation code employed for this project
 
 
 #### Figure data
@@ -63,10 +66,10 @@ The data necessary to generate the figures can be downloaded via
 ```bash
 make data-figure
 ```
-In the case of GADGET-3 --- the reference simulation code employed for this
-project --- the power spectrum data files needed for the figures can
-alternatively be computed from the [published snapshots](#other-data). That
-is, once the snapshots have been downloaded using
+
+As snapshots are available in the case of GADGET-3, the GADGET-3 power
+spectrum data files needed for the figures can alternatively be computed from
+these snapshots. That is, once the snapshots have been downloaded using
 ```bash
 make data-snapshot
 ```
@@ -80,23 +83,24 @@ spectra can be removed using
 make clean-powerspec
 ```
 Recomputing all GADGET-3 power spectra from snapshots takes about 3 hours on
-modern hardware and takes up 20--30 GB of RAM. This computation can be sped up
-through parallelization by setting e.g.
+modern hardware and takes up roughly 25 GB of RAM. This computation can be
+sped up through parallelization by setting e.g.
 ```bash
 export OMP_NUM_THREADS=8
 ```
-The script used for computing the power spectra is found within the `scripts`
-directory and is called `compute_powerspec.py`.
+The script employed for computing the power spectra is found within the
+`scripts` directory and is called `compute_powerspec.py`.
 
 
 
 #### Other data
-We additionally make the following data sets available:
+In addition to already processed data files, we additionally make the
+following data sets available:
 - Simulation snapshots (snapshots of GADGET-3 simulations at redshift 1 and 0):
   ```bash
   make data-snapshot
   ```
-- Simulation initial conditions (GADGET snapshots at initial redshift 99 as
+- Simulation initial conditions (GADGET snapshots at initial redshift 127 as
   well as primordial random phases):
   ```bash
   make data-ic
