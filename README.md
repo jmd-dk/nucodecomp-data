@@ -1,6 +1,7 @@
 ## Euclid massive neutrino code comparison data
-This repository contains scripts used to make all figures included in the
-paper ‘Euclid: Modelling massive neutrinos in cosmology --- a code comparison’.
+This repository contains the main data processing pipeline used to make all
+figures included in the paper
+‘Euclid: Modelling massive neutrinos in cosmology --- a code comparison’.
 
 
 
@@ -174,8 +175,9 @@ combinations will work as well.
 
 ### Docker
 All of the [above dependencies](#required-libraries-and-tools) has been
-bundled into a custom Docker image, available at !!!. To run the data analysis
-pipeline through Docker, you can e.g. run Docker interactively,
+bundled into a custom Docker image, available at
+[jmddk/nucodecomp](https://hub.docker.com/r/jmddk/nucodecomp). To run the data
+analysis pipeline through Docker, you can e.g. run Docker interactively,
 ```bash
 docker run --rm -it -v ${PWD}:/mnt jmddk/nucodecomp
 ```
