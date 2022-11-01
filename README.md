@@ -55,7 +55,7 @@ directory structure:
 
 with the first-level directory labelling the simulation by the neutrino mass
 and one of ‘fiducial’ (512 Mpc/h box, 512³ particles), ‘HR’ (512 Mpc/h box,
-1024³ particles) or ‘1024Mpc’ (1024Mpc Mpc/h box, 1024³ particles). Each
+1024³ particles) or ‘1024Mpc’ (1024 Mpc/h box, 1024³ particles). Each
 `snapshot/` directory contains snapshot files collectively representing one
 snapshot. Snapshots are only made available for GADGET-3, the reference
 simulation code employed for this project
