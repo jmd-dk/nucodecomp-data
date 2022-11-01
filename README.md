@@ -89,7 +89,7 @@ sped up through parallelization by setting e.g.
 export OMP_NUM_THREADS=8
 ```
 The script employed for computing the power spectra is found within the
-`scripts` directory and is called `compute_powerspec.py`.
+`script` directory and is called `compute_powerspec.py`.
 
 
 
@@ -119,7 +119,7 @@ Already existing figures will be skipped. You can remove all figures via
 ```bash
 make clean-figure
 ```
-The Python scripts used for generating the figures are found in the `scripts`
+The Python scripts used for generating the figures are found in the `script`
 directory, one script per figure.
 
 
@@ -170,6 +170,8 @@ be installed on the system. All should be to be on the `PATH`.
 - LaTeX, e.g. TeX Live 2020.20210202-3
 - (GNU) Make 4.2.1
 - (GNU) wget 1.21.3
+- (GNU) tar 1.30
+- XZ Utils 5.2.4
 
 The listed version numbers are known to work and coincide with those shipping
 with the [published Docker image](#docker), though many other version
