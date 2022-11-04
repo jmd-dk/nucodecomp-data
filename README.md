@@ -13,8 +13,8 @@ make clean-figure && python=/path/to/python make
 ```
 with `/path/to/python` the path to the Python interpreter to use (see
 [Required libraries and tools](#required-libraries-and-tools) for required
-Python packages). Note that this will download !!! GB from
-[Zenodo](https://zenodo.org/) and take up !!! GB disk space.
+Python packages). Note that this will download 6 GB from
+[Zenodo](https://zenodo.org/) and take up 18 GB of disk space.
 
 For more fine-grained control and additional possibilities,
 see the sections below.
@@ -28,13 +28,18 @@ All data files will appear in the `data` directory, which have the following
 directory structure:
 - `data/`
   - `0.0eV/`
+    - `ic/`
+      - `phase`
+      - `snapshot.*`
     - `gadget3/`
       - `z0/`
         - `snapshot/`
+          - `snapshot.*`
         - `powerspec_cdm`
         - ⋯  (other data files)
       - `z1/`
         - `snapshot/`
+          - `snapshot.*`
         - `powerspec_cdm`
         - ⋯  (other data files)
     - ⋯  (other codes)
@@ -55,10 +60,15 @@ directory structure:
 
 with the first-level directory labelling the simulation by the neutrino mass
 and one of ‘fiducial’ (512 Mpc/h box, 512³ particles), ‘HR’ (512 Mpc/h box,
-1024³ particles) or ‘1024Mpc’ (1024 Mpc/h box, 1024³ particles). Each
-`snapshot/` directory contains snapshot files collectively representing one
-snapshot. Snapshots are only made available for GADGET-3, the reference
-simulation code employed for this project
+1024³ particles) or ‘1024Mpc’ (1024 Mpc/h box, 1024³ particles). The `ic`
+directories contain initial conditions in the form of a snapshot. The special
+`phase` file, providing the primordial random phases, is exclusive to the
+`0.0eV/ic` directory (all simulations share the same phases). Each snapshot
+(be it initial conditions or final results) is distributed across several
+files, as indicated by the asterisk in `snapshot.*`. Snapshots are only made
+available for GADGET-3, the reference simulation code employed for this
+project.
+
 
 
 #### Figure data
@@ -93,18 +103,36 @@ The script employed for computing the power spectra is found within the
 
 
 
-#### Other data
-In addition to already processed data files, we additionally make the
-following data sets available:
-- Simulation snapshots (snapshots of GADGET-3 simulations at redshift 1 and 0):
-  ```bash
-  make data-snapshot
-  ```
-- Simulation initial conditions (GADGET snapshots at initial redshift 127 as
-  well as primordial random phases):
-  ```bash
-  make data-ic
-  ```
+#### Simulation snapshots
+Simulation snapshots are available for GADGET-3 at redshifts 1 and 0, for the
+entire simulation suite. These can be downloaded via
+```bash
+make data-snapshot
+```
+
+
+
+#### Initial conditions
+Initial conditions are available for all simulations. These are given as
+GADGET snapshots at redshift 127. For the cosmologies with massive neutrinos,
+the snapshots contain both matter and neutrino particles. These initial
+condition snapshots can be downloaded via
+```bash
+make data-ic
+```
+While the initial condition snapshots are code agnostic in principle, many
+cosmological simulation codes require initial conditions in a special format,
+e.g. due to the way neutrinos are handled. Besides the specification of the
+cosmology and simulation parameters, a set of primordial amplitudes and phases
+are further needed to specify the initial conditions. We use
+"[fixed](https://arxiv.org/abs/1603.05253)" amplitudes, leaving only the
+phases. These phases are available for download using
+```bash
+make data-phase
+```
+All simulations employ the same phases. For how to use these phases to
+generate matching initial conditions of your own, see the
+[initial conditions demo](#ic).
 
 
 
@@ -121,6 +149,25 @@ make clean-figure
 ```
 The Python scripts used for generating the figures are found in the `script`
 directory, one script per figure.
+
+
+
+### Demos
+...
+
+
+
+#### Cosmology
+... `demo/cosmology.py`
+```bash
+make demo-cosmology
+```
+
+#### Initial conditions
+... `demo/ic.py`
+```bash
+make demo-ic
+```
 
 
 
@@ -187,8 +234,12 @@ analysis pipeline through Docker, you can e.g. run Docker interactively,
 ```bash
 docker run --rm -it -v ${PWD}:/mnt jmddk/nucodecomp
 ```
-after which all of the above `make` commands are available.
-
+after which all of the above `make` commands are available. You can copy
+results produced within the running Docker container (say the `figure`
+directory) to your host filesystem using
+```bash
+cp -r figure /mnt/
+```
 The `Dockerfile` used to build the Docker image is provided as part of
 this repository.
 
