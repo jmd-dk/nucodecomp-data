@@ -8,10 +8,11 @@ figures included in the paper
   * [Data](#data)
     + [Data directory structure](#data-directory-structure)
     + [Figure data](#figure-data)
+      - [Power spectra](#power-spectra)
     + [Simulation snapshots](#simulation-snapshots)
     + [Initial conditions](#initial-conditions)
   * [Figures](#figures)
-  * [Demos](#demos)
+  * [Demonstrations](#demonstrations)
     + [Cosmology](#cosmology)
     + [Initial conditions](#initial-conditions-1)
   * [Cleanup](#cleanup)
@@ -28,11 +29,19 @@ make clean-figure && python=/path/to/python make
 ```
 with `/path/to/python` the path to the Python interpreter to use (see
 [Required libraries and tools](#required-libraries-and-tools) for required
-Python packages). Note that this will download 6 GB from
-[Zenodo](https://zenodo.org/) and take up 18 GB of disk space.
+Python packages). The necessary data will be downloaded from
+[Zenodo](https://zenodo.org/), amounting to a 6 GB download that takes up
+18 GB of disk space once extracted. See the [Figures](#figures) section for
+further details.
 
-For more fine-grained control and additional possibilities,
-see the sections below.
+Further data (simulation snapshots, initial conditions) are made available,
+see the [Data](#data) section.
+
+For computing power spectra from snapshots,
+see [Power spectra](#power-spectra).
+
+Demonstrations of how the cosmology is specified and how initial conditions
+are set up can be found in the [Demonstrations](#demonstrations) section.
 
 
 
@@ -92,9 +101,13 @@ The data necessary to generate the figures can be downloaded via
 make data-figure
 ```
 
-As snapshots are available in the case of GADGET-3, the GADGET-3 power
-spectrum data files needed for the figures can alternatively be computed from
-these snapshots. That is, once the snapshots have been downloaded using
+
+
+#### Power spectra
+As snapshots are available in the case of GADGET-3, rather than using the
+downloaded GADGET-3 power spectrum data files for the figures, these power
+spectrum data files can alternatively be computed from the snapshots. That is,
+once the snapshots have been downloaded using
 ```bash
 make data-snapshot
 ```
@@ -102,13 +115,13 @@ all GADGET-3 power spectra can be computed via
 ```bash
 make powerspec
 ```
-Already existing power spectra will not be recomputed. All such GADGET-3 power
-spectra can be removed using
+Already existing power spectra will not be recomputed and missing snapshots
+are allowed. All such GADGET-3 power spectra can be removed using
 ```bash
 make clean-powerspec
 ```
 Recomputing all GADGET-3 power spectra from snapshots takes about 3 hours on
-modern hardware and takes up roughly 25 GB of RAM. This computation can be
+modern hardware and requires roughly 25 GB of RAM. This computation can be
 sped up through parallelization by setting e.g.
 ```bash
 export OMP_NUM_THREADS=8
@@ -167,7 +180,7 @@ directory, one script per figure.
 
 
 
-## Demos
+## Demonstrations
 ...
 
 
