@@ -132,7 +132,7 @@ make data-phase
 ```
 All simulations employ the same phases. For how to use these phases to
 generate matching initial conditions of your own, see the
-[initial conditions demo](#ic).
+[initial conditions demo](#initial-conditions).
 
 
 
