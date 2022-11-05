@@ -322,3 +322,15 @@ cp -r figure /mnt/
 The `Dockerfile` used to build the Docker image is provided as part of
 this repository.
 
+
+
+## Keeping the Git repository sane
+If you clone this repository and regenerate the figures in either the `figure`
+or `demo' directory, Git will detect and report changes to the PDF files due
+to differece in the metadata within the files. We thus do not want changes to
+the PDFs to count, but as they are comitted, adding them to `.gitignore` does
+not help. Instead, do the following:
+```bash
+git update-index --assume-unchanged figure/*.pdf demo/*.pdf
+```
+
