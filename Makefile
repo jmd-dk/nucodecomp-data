@@ -61,6 +61,18 @@ powerspec: script/compute_powerspec.py
 .PHONY: powerspec
 
 
+# Demonstrations
+demo-cosmology: demo/cosmology.py
+	$(python) -B $<
+.PHONY: demo-cosmology
+
+demo-ic: demo/ic.py data-ic-phase
+	$(python) -B $<
+.PHONY: demo-ic
+
+demo: demo-cosmology demo-ic
+
+
 # Data
 data-figure:
 	@$(call download,$(doi_data_figure),data/0.0eV/gadget3/z0/halo_cdm)
@@ -166,26 +178,30 @@ data-ic-HR: data-ic-0.0eV-HR data-ic-0.15eV-HR
 data-ic: data-ic-phase data-ic-fiducial data-ic-1024Mpc data-ic-HR
 
 
-# Demonstrations
-demo-cosmology: demo/cosmology.py
-	$(python) -B $<
-.PHONY: demo-cosmology
-
-demo-ic: demo/ic.py data-ic-phase
-	$(python) -B $<
-.PHONY: demo-ic
-
-demo: demo-cosmology demo-ic
-
-
 # Clean
 clean-figure:
 	$(RM) $(addprefix figure/figure, $(addsuffix .pdf, $(figs)))
 .PHONY: clean-figure
 
+clean-powerspec:
+	$(RM) data/*/gadget3/*/powerspec_*
+.PHONY: clean-powerspec
+
+clean-demo-cosmology:
+	$(RM) demo/cosmology.pdf
+.PHONY: clean-demo-cosmology
+
+clean-demo-ic:
+	$(RM) demo/ic.pdf
+.PHONY: clean-demo-ic
+
+clean-demo: clean-demo-cosmology clean-demo-ic
+
 clean-tar.xz:
 	$(RM) *.tar.xz
 .PHONY: clean-tar.xz
+
+clean: clean-tar.xz clean-figure clean-powerspec clean-demo
 
 clean-data-figure:
 	@for d in data/*/*; do                       \
@@ -305,22 +321,6 @@ clean-data-ic-HR: clean-data-ic-0.0eV-HR clean-data-ic-0.15eV-HR
 clean-data-ic: clean-data-ic-phase clean-data-ic-fiducial clean-data-ic-1024Mpc clean-data-ic-HR
 
 clean-data: clean-tar.xz clean-data-figure clean-data-snapshot clean-data-ic
-
-clean-powerspec:
-	$(RM) data/*/gadget3/*/powerspec_*
-.PHONY: clean-powerspec
-
-clean-demo-cosmology:
-	$(RM) demo/cosmology.pdf
-.PHONY: clean-demo-cosmology
-
-clean-demo-ic:
-	$(RM) demo/ic.pdf
-.PHONY: clean-demo-ic
-
-clean-demo: clean-demo-cosmology clean-demo-ic
-
-clean: clean-tar.xz clean-figure clean-powerspec clean-demo
 
 distclean: clean clean-data
 
