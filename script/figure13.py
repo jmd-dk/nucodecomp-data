@@ -97,5 +97,6 @@ def plot(masses, sim, codes, redshifts, spectrum, filename_figure):
     fig.savefig(filename_figure)
 
 if __name__ == '__main__':
-    plot(masses, sim, codes, redshifts, spectrum, filename_figure)
+   if not os.path.isfile(filename_figure):
+       plot(masses, sim, codes, redshifts, spectrum, filename_figure)
 

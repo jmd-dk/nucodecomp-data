@@ -96,5 +96,6 @@ def plot(mass, simulations, codes, z, spectrum, reference, filename_figure):
     fig.savefig(filename_figure)
 
 if __name__ == '__main__':
-    plot(mass, simulations, codes, z, spectrum, reference, filename_figure)
+    if not os.path.isfile(filename_figure):
+        plot(mass, simulations, codes, z, spectrum, reference, filename_figure)
 
