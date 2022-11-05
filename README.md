@@ -1,3 +1,7 @@
+[![DOI](https://zenodo.org/badge/560142842.svg)](https://zenodo.org/badge/latestdoi/560142842)
+
+
+
 # Euclid massive neutrino code comparison data
 This repository contains the main data processing pipeline used to make all
 figures included in the paper
