@@ -1,0 +1,17 @@
+# Figure data
+doi_data_figure = /media/jeppe/toshiba4TB/data_symlinks/data-figure
+
+# Snapshot data
+doi_data_snapshot_fiducial          = /media/jeppe/toshiba4TB/data_symlinks/data-snapshot-fiducial
+doi_data_snapshot_0.0eV_1024Mpc     = /media/jeppe/toshiba4TB/data_symlinks/data-snapshot-0.0eV_1024Mpc
+doi_data_snapshot_0.0eV_HR          = /media/jeppe/toshiba4TB/data_symlinks/data-snapshot-0.0eV_HR
+doi_data_snapshot_0.15eV_1024Mpc_z0 = /media/jeppe/toshiba4TB/data_symlinks/data-snapshot-0.15eV_1024Mpc-z0
+doi_data_snapshot_0.15eV_1024Mpc_z1 = /media/jeppe/toshiba4TB/data_symlinks/data-snapshot-0.15eV_1024Mpc-z1
+doi_data_snapshot_0.15eV_HR_z0      = /media/jeppe/toshiba4TB/data_symlinks/data-snapshot-0.15eV_HR-z0
+doi_data_snapshot_0.15eV_HR_z1      = /media/jeppe/toshiba4TB/data_symlinks/data-snapshot-0.15eV_HR-z1
+
+# Initial condition data
+doi_data_ic_fiducial = /media/jeppe/toshiba4TB/data_symlinks/data-ic-fiducial
+doi_data_ic_1024Mpc  = /media/jeppe/toshiba4TB/data_symlinks/data-ic-1024Mpc
+doi_data_ic_HR       = /media/jeppe/toshiba4TB/data_symlinks/data-ic-HR
+
