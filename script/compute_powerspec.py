@@ -60,6 +60,10 @@ def compute(masses, simulations, codes, redshifts, spectra, recompute=False):
         filename_snapshot = get_filename(mass, sim, code, z, 'snapshot/snapshot')
         if not glob(f'{filename_snapshot}*'):
             continue
+        if 'halo' in spectrum:
+            filename_halo = get_filename(mass, sim, code, z, 'halo_cdm')
+            if not os.path.isfile(filename_halo):
+                continue
         spectrum_type = ('cross' if 'x' in spectrum else 'auto')
         ptypes = [
             species2ptype[species]
