@@ -56,7 +56,7 @@ figure/figure%.pdf: script/figure%.py data-figure
 
 
 # Power spectra
-powerspec: script/compute_powerspec.py data-snapshot
+powerspec: script/compute_powerspec.py
 	$(python) -B $<
 .PHONY: powerspec
 
