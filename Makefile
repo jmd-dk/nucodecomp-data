@@ -34,7 +34,7 @@ $(shell
             [
                 print(f['links']['self'])
                 for f in json.loads(response.read())['files']
-                if f['links']['self'].endswith("$3")
+                if f['links']['self'].endswith('$3')
             ];
         "); do
             wget --continue --no-check-certificate $$url;
