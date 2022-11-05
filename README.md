@@ -18,6 +18,7 @@ figures included in the paper
   * [Cleanup](#cleanup)
   * [Required libraries and tools](#required-libraries-and-tools)
   * [Docker](#docker)
+  * [Keeping the Git repository sane](#keeping-the-git-repository-sane)
 
 
 
