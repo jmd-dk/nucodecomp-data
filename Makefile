@@ -45,11 +45,7 @@ $(shell
 endef
 
 
-# Default target
-all: figure
-
-
-# Figures
+# Figures (default target)
 figure: $(addprefix figure/figure, $(addsuffix .pdf, $(figs)))
 figure/figure%.pdf: script/figure%.py data-figure
 	$(python) -B $<
@@ -176,6 +172,18 @@ data-ic-0.15eV-HR:
 data-ic-HR: data-ic-0.0eV-HR data-ic-0.15eV-HR
 
 data-ic: data-ic-phase data-ic-fiducial data-ic-1024Mpc data-ic-HR
+
+
+# Target for building everything (not the default target)
+all:
+	$(MAKE) distclean
+	$(MAKE) data-figure data-snapshot
+	$(MAKE) clean-powerspec
+	$(MAKE) powerspec
+	$(MAKE) figure
+	$(MAKE) demo
+	$(MAIE) data-ic
+.PHONY: all
 
 
 # Clean
