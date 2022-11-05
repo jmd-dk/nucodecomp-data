@@ -77,7 +77,7 @@ try downloading e.g. this snapshot (see [Snapshots](#snapshots) for details):
 ```bash
 make data-snapshot-0.0eV-fiducial-z0
 ```
-(2.5 GB download, 4.1 GB after extraction). If now running the `powerspec`
+(2.5 GB download, 4 GB after extraction). If now running the `powerspec`
 Make command still does nothing, it is because you already have the power
 spectrum data computed. To remove it, do
 ```bash
@@ -177,7 +177,8 @@ The data necessary to generate the figures can be downloaded via
 make data-figure
 ```
 This data contains various kinds of power spectra, bispectra and halo catalogs
-for the different simulations, codes and output redshifts.
+for the different simulations, codes and output redshifts, and takes up 18 GB
+of disk space.
 
 
 
@@ -202,6 +203,9 @@ make data-snapshot-1024Mpc-z0      # all 1024Mpc z0 (0.0eV, 0.15eV)
 make data-snapshot-HR              # all HR (0.0eV z0, 0.0eV z1, 0.15eV z0, 0.15eV z1)
 make data-snapshot                 # all
 ```
+A single 0.0eV fiducial snapshot takes up 4 GB of disk space. Having massive
+neutrinos raises this by a factor of 2. The 1024Mpc or HR snapshots comes with
+another factor of 8.
 
 
 
@@ -226,6 +230,9 @@ make data-ic-1024Mpc   # all 1024Mpc  (0.0eV, 0.15eV)
 make data-ic-HR        # all HR       (0.0eV, 0.15eV)
 make data-ic           # all
 ```
+A single 0.0eV fiducial initial condition snapshot takes up 4 GB of disk
+space. Having massive neutrinos raises this by a factor of 2. The 1024Mpc
+or HR initial condition snapshots comes with another factor of 8.
 
 While the initial condition snapshots are code agnostic in principle, many
 cosmological simulation codes require initial conditions in a special format,
@@ -237,9 +244,9 @@ phases. These phases are available for download using
 ```bash
 make data-phase
 ```
-All simulations employ the same phases. For how to use these phases to
-generate matching initial conditions of your own, see the
-[initial conditions demo](#initial-conditions).
+taking up 2 GB of disk space. All simulations employ these same phases.
+For how to use these phases to generate matching initial conditions of
+your own, see the [initial conditions demo](#initial-conditions).
 
 
 
