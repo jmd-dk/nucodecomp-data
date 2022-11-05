@@ -15,6 +15,7 @@ figures included in the paper
     + [Figure data](#figure-data)
     + [Snapshots](#snapshots)
     + [Initial conditions](#initial-conditions-1)
+      - [Primordial phases](#primordial-phases)
   * [Cleanup](#cleanup)
   * [Required libraries and tools](#required-libraries-and-tools)
   * [Docker](#docker)
@@ -53,8 +54,12 @@ running
 python=/path/to/python make figure
 ```
 Missing data will be downloaded as needed (see [Figure data](#figure-data)
-for details). Already existing figures will be skipped. You can remove all
-figures via
+for details). Already existing figures will be skipped. To build the figures
+in parallel, use e.g.
+```bash
+python=/path/to/python make -j 4 figure
+```
+You can remove all figures with
 ```bash
 make clean-figure
 ```
@@ -78,12 +83,14 @@ try downloading e.g. this snapshot (see [Snapshots](#snapshots) for details):
 ```bash
 make data-snapshot-0.0eV-fiducial-z0
 ```
-(2.5 GB download, 4 GB after extraction). If now running the `powerspec`
-Make command still does nothing, it is because you already have the power
+(2.5 GB download, 4 GB after extraction). If now building the `powerspec`
+Make target still does nothing, it is because you already have the power
 spectrum data computed. To remove it, do
 ```bash
 make clean-powerspec
 ```
+
+Computing the various power spectra requires at most 30 GB of RAM.
 
 Multiple different kinds of power spectra are computed; matter auto power
 spectra, neutrino auto power spectra, matter-neutrino auto power spectra,
@@ -102,21 +109,72 @@ The script employed for computing the power spectra is found within the
 
 
 ## Demonstrations
-...
+The `demo` directory contains scripts that are not used directly for the
+paper, but are instead included here to demonstrate and document critical
+aspects of the computations that goes into it. Two such demonstrations are
+included; [Cosmology](#cosmology) which deals with the cosmological
+specifications and computation of the linear power spectrum, and
+[Initial conditions](#initial-conditions) which shows how to construct a 3D
+realization of the matter density field from the
+[primordial phases](#primordial-phases) and linear power spectrum. As these
+scripts are made for demonstration purposes only, they are written as to be
+easily understandable, though at the cost of having suboptimal runtimes.
 
 
 
 ### Cosmology
-... `demo/cosmology.py`
+The `demo/cosmology.py` script implements the four cosmologies (one for each
+neutrino mass) and uses [CLASS](http://class-code.net/) to compute the linear
+matter power spectrum, plotting it together with the GADGET-3 results, if
+available among the [data](#figure-data). We shall not list the cosmological
+parameters here, as these should instead be looked up in `demo/cosmology.py`.
+A few remarks is however in order:
+* The value of `Omega_cdm` varies with the neutrino mass, with the intention
+  of having the cold dark matter and neutrino have a combined density
+  parameter of 0.27.
+* For massless neutrinos, the CLASS ‘ur’ (ultra-relativistic) species is used,
+  with a weight of `N_eff = 3.046`. For massive neutrinos of
+  `mass ∈ {0.15, 0.3, 0.6} eV`, this is replaced with a single,
+  thrice-degenerate ‘ncdm’ (non-cold dark matter) species of mass `mass/3`
+  and a temperature again amounting to having `N_eff = 3.046`.
+  The added precision settings used for the massive neutrino cosmologies are
+  somewhat arbitrary and does not reflect parameter values used for all
+  simulations within this project.
+
+You can run the `demo/cosmology.py` through Python directly, or use
 ```bash
-make demo-cosmology
+make python=/path/to/python demo-cosmology
 ```
+which will result in `demo/cosmology.pdf`.
+
+
 
 ### Initial conditions
-... `demo/ic.py`
+The `demo/ic.py` script implements realization of the initial matter density
+field, as needed for initial condition generation. A 3D Fourier grid is
+populated with random noise of "[fixed](https://arxiv.org/abs/1603.05253)"
+amplitudes given by the square root of the power spectrum. The random phases
+are read in from an [external file](#primordial-phases), which must then be
+applied to the grid in the correct order. For this, a space-filling curve is
+used, see the `get_curve_key()` function for details. The grid is then Fourier
+transformed to real space, obtaining a realization of the linear matter
+density contrast field.
+
+To show that the amplitudes of the realization are correct, its power spectrum
+is computed and plotted alongside that of the linear theory input power
+spectrum as well as that of the
+[initial condition snapshot](#initial-conditions-1). To show that the phases
+of the realization matches those of the initial condition snapshot, the
+matter particles of the initial condition snapshot are interpolated onto a
+grid, which is then deconvolved. A 2D projection of a slice of both the
+realized grid and the grid obtained from the initial condition snapshot is
+then plotted, which should look extremely similar.
+
+You can run the `demo/ic.py` through Python directly, or use
 ```bash
-make demo-ic
+make python=/path/to/python demo-ic
 ```
+which will result in `demo/ic.pdf`.
 
 
 
@@ -239,6 +297,9 @@ initial condition snapshot takes up 4 GB of disk space. Having massive
 neutrinos raises this by a factor of 2. The 1024Mpc or HR initial condition
 snapshots comes with another factor of 8.
 
+
+
+#### Primordial phases
 While the initial condition snapshots are code agnostic in principle, many
 cosmological simulation codes require initial conditions in a special format,
 e.g. due to the way neutrinos are handled. Besides the specification of the
@@ -324,9 +385,9 @@ this repository.
 
 ## Keeping the Git repository sane
 If you clone this repository and regenerate the figures in either the `figure`
-or `demo' directory, Git will detect and report changes to the PDF files due
-to differece in the metadata within the files. We thus do not want changes to
-the PDFs to count, but as they are comitted, adding them to `.gitignore` does
+or `demo` directory, Git will detect and report changes to the PDF files due
+to differences in the metadata within the files. We thus do not want changes to
+the PDFs to count, but as they are committed, adding them to `.gitignore` does
 not help. Instead, do the following:
 ```bash
 git update-index --assume-unchanged figure/*.pdf demo/*.pdf
