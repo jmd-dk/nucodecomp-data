@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7295261.svg)](https://doi.org/10.5281/zenodo.7295261)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7295229.svg)](https://doi.org/10.5281/zenodo.7295229)
 
 
 
@@ -166,13 +166,13 @@ density contrast field.
 
 To show that the amplitudes of the realization are correct, its power spectrum
 is computed and plotted alongside that of the linear theory input power
-spectrum as well as that of the
-[initial condition snapshot](#initial-conditions-1). To show that the phases
-of the realization matches those of the initial condition snapshot, the
-matter particles of the initial condition snapshot are interpolated onto a
-grid, which is then deconvolved. A 2D projection of a slice of both the
-realized grid and the grid obtained from the initial condition snapshot is
-then plotted, which should look extremely similar.
+spectrum as well as that of the initial condition snapshot, if available among
+the [data](#initial-conditios-1). To show that the phases of the realization
+matches those of the initial condition snapshot, the matter particles of the
+initial condition snapshot are interpolated onto a grid, which is then
+deconvolved. A 2D projection of a slice of both the realized grid and the grid
+obtained from the initial condition snapshot is then plotted,
+which should look extremely similar.
 
 You can run the `demo/ic.py` through Python directly, or use
 ```bash
