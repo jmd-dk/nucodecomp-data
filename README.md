@@ -203,9 +203,11 @@ make data-snapshot-1024Mpc-z0      # all 1024Mpc z0 (0.0eV, 0.15eV)
 make data-snapshot-HR              # all HR (0.0eV z0, 0.0eV z1, 0.15eV z0, 0.15eV z1)
 make data-snapshot                 # all
 ```
-A single 0.0eV fiducial snapshot takes up 4 GB of disk space. Having massive
-neutrinos raises this by a factor of 2. The 1024Mpc or HR snapshots comes with
-another factor of 8.
+The easiest way to discover all of these is through auto-completion in the
+terminal (type `make data-snapshot-` and press tab twice). A single 0.0eV
+fiducial snapshot takes up 4 GB of disk space. Having massive neutrinos raises
+this by a factor of 2. The 1024Mpc or HR snapshots comes with another factor
+of 8.
 
 
 
@@ -230,9 +232,11 @@ make data-ic-1024Mpc   # all 1024Mpc  (0.0eV, 0.15eV)
 make data-ic-HR        # all HR       (0.0eV, 0.15eV)
 make data-ic           # all
 ```
-A single 0.0eV fiducial initial condition snapshot takes up 4 GB of disk
-space. Having massive neutrinos raises this by a factor of 2. The 1024Mpc
-or HR initial condition snapshots comes with another factor of 8.
+The easiest way to discover all of these is through auto-completion in the
+terminal (type `make data-ic-` and press tab twice). A single 0.0eV fiducial
+initial condition snapshot takes up 4 GB of disk space. Having massive
+neutrinos raises this by a factor of 2. The 1024Mpc or HR initial condition
+snapshots comes with another factor of 8.
 
 While the initial condition snapshots are code agnostic in principle, many
 cosmological simulation codes require initial conditions in a special format,
@@ -251,35 +255,28 @@ your own, see the [initial conditions demo](#initial-conditions).
 
 
 ## Cleanup
-Each `make` target has an associated ‘clean’ target which undoes the action:
-- Figures are removed with
-  ```bash
-  make clean-figure
-  ```
-- GADGET-3 power spectrum data files are removed with
-  ```bash
-  make clean-powerspec
-  ```
-- Figure data files are removed with
-  ```bash
-  make clean-data-figure
-  ```
-- GADGET-3 snapshots are removed with
-  ```bash
-  make clean-data-snapshot
-  ```
-- Initial condition files are removed with
-  ```bash
-  make clean-data-ic
-  ```
-- The figures as well as the GADGET-3 power spectrum data are removed with
-  ```bash
-  make clean
-  ```
-- All clean targets can be run together using
-  ```bash
-  make distclean
-  ```
+Each `make` ‘build’ target has an associated ‘clean’ target which undoes the
+action. The name of the clean target is the same as the build target,
+prepended with `clean-`. For example
+```bash
+make clean-figure       # remove figure PDFs
+make clean-powerspec    # remove GADGET-3 power spectra
+make clean-demo         # remove demo PDFs
+make clean-data-figure  # remove downloaded figure data
+# Remove various subsets of the downloaded snapshots
+make clean-data-snapshot-0.3eV-fiducial-z0
+make clean-data-snapshot-0.0eV-1024Mpc
+make clean-data-snapshot-HR
+make clean-data-snapshot
+```
+In addition, some clean targets exists that has no
+```bash
+make clean       # remove all PDFs and GADGET-3 power spectra
+make clean-data  # remove all downloaded data
+make distclean   # remove every generated file
+```
+The easiest way to discover all of these is through auto-completion in the
+terminal (type `make clean-` and press tab twice).
 
 
 
