@@ -2,12 +2,12 @@
 
 
 
-# Euclid massive neutrino code comparison data
+# Euclid: Modelling massive neutrinos in cosmology — a code comparison (data repository)
 This repository contains the main data processing pipeline used to make all
 figures included in the paper
 ‘Euclid: Modelling massive neutrinos in cosmology — a code comparison’.
 
-- [Euclid massive neutrino code comparison data](#euclid-massive-neutrino-code-comparison-data)
+- [Euclid: Modelling massive neutrinos in cosmology — a code comparison (data repository)](#euclid--modelling-massive-neutrinos-in-cosmology---a-code-comparison--data-repository)
   * [Introduction](#introduction)
   * [Figures](#figures)
   * [Power spectra](#power-spectra)
@@ -94,7 +94,11 @@ spectrum data computed. To remove it, do
 make clean-powerspec
 ```
 
-Computing the various power spectra requires at most 30 GB of RAM.
+Computing the various power spectra requires at most 30 GB of RAM. Part of
+these computations can be parallelized by setting `OMP_NUM_THREADS`, e.g.
+```bash
+export OMP_NUM_THREADS=8
+```
 
 Multiple different kinds of power spectra are computed; matter auto power
 spectra, neutrino auto power spectra, matter-neutrino auto power spectra,
