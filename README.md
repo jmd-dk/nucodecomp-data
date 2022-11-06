@@ -33,7 +33,7 @@ regenerate them from data, do
 ```bash
 make clean-figure && python=/path/to/python make
 ```
-with `/path/to/python` the path to the Python interpreter to use (see
+with `/path/to/python` the path to the Python 3 interpreter to use (see
 [Required libraries and tools](#required-libraries-and-tools) for required
 Python packages). The necessary data will be downloaded from
 [Zenodo](https://zenodo.org/), amounting to a 6 GB download that takes up
@@ -367,8 +367,8 @@ be installed on the system. All should be to be on the `PATH`.
 - XZ Utils 5.2.4
 
 The listed version numbers are known to work and coincide with those shipping
-with the [published Docker image](#docker), though many other version
-combinations will work as well.
+with the [published Docker image](#docker), though many other versions will
+work as well.
 
 
 
