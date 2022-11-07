@@ -183,6 +183,7 @@ all:
 	$(MAKE) figure
 	$(MAKE) demo
 	$(MAKE) data-ic
+	$(MAKE) demo-ic
 .PHONY: all
 
 
