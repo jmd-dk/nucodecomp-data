@@ -182,7 +182,7 @@ all:
 	$(MAKE) powerspec
 	$(MAKE) figure
 	$(MAKE) demo
-	$(MAIE) data-ic
+	$(MAKE) data-ic
 .PHONY: all
 
 
