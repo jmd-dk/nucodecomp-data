@@ -63,6 +63,10 @@ in parallel, use e.g.
 ```bash
 python=/path/to/python make -j 4 figure
 ```
+To build a specific figure only, say `figure1.pdf`, do
+```bash
+python=/path/to/python make figure/figure1.pdf
+```
 You can remove all figures with
 ```bash
 make clean-figure
@@ -79,7 +83,7 @@ spectrum data files can alternatively be computed from the snapshots.
 
 To compute all power spectra from available GADGET-3 snapshots, do
 ```bash
-make python=/path/to/python powerspec
+python=/path/to/python make powerspec
 ```
 As this only does the computation for existing snapshots, you must download
 these in advance. If nothing seems to happen when running the above,
@@ -124,9 +128,7 @@ included; [Cosmology](#cosmology) which deals with the cosmological
 specifications and computation of the linear power spectrum, and
 [Initial conditions](#initial-conditions) which shows how to construct a 3D
 realization of the matter density field from the
-[primordial phases](#primordial-phases) and linear power spectrum. As these
-scripts are made for demonstration purposes only, they are written as to be
-easily understandable, though at the cost of having suboptimal runtimes.
+[primordial phases](#primordial-phases) and linear power spectrum.
 
 
 
@@ -151,7 +153,7 @@ A few remarks is however in order:
 
 You can run the `demo/cosmology.py` through Python directly, or use
 ```bash
-make python=/path/to/python demo-cosmology
+python=/path/to/python make demo-cosmology
 ```
 which will result in `demo/cosmology.pdf`.
 
@@ -164,23 +166,23 @@ populated with random noise of "[fixed](https://arxiv.org/abs/1603.05253)"
 amplitudes given by the square root of the power spectrum. The random phases
 are read in from an [external file](#primordial-phases), which must then be
 applied to the grid in the correct order. For this, a space-filling curve is
-used, see the `get_curve_key()` function for details. The grid is then Fourier
-transformed to real space, obtaining a realization of the linear matter
-density contrast field.
+used, see the `get_curve_key()` function for clarification. The grid is then
+Fourier transformed to real space, obtaining a realization of the linear
+matter density contrast field.
 
 To show that the amplitudes of the realization are correct, its power spectrum
 is computed and plotted alongside that of the linear theory input power
 spectrum as well as that of the initial condition snapshot, if available among
-the [data](#initial-conditios-1). To show that the phases of the realization
+the [data](#initial-conditions-1). To show that the phases of the realization
 matches those of the initial condition snapshot, the matter particles of the
-initial condition snapshot are interpolated onto a grid, which is then
-deconvolved. A 2D projection of a slice of both the realized grid and the grid
-obtained from the initial condition snapshot is then plotted,
-which should look extremely similar.
+initial condition snapshot are interpolated onto a grid (and deconvolved).
+Two-dimensional projections of slices of the realized grid and the grid
+obtained from the initial condition snapshot are then plotted next to each
+other, which should appear visually extremely similar.
 
 You can run the `demo/ic.py` through Python directly, or use
 ```bash
-make python=/path/to/python demo-ic
+python=/path/to/python make demo-ic
 ```
 which will result in `demo/ic.pdf`.
 
@@ -201,11 +203,15 @@ directory structure:
         - `snapshot/`
           - `snapshot.*`
         - `powerspec_cdm`
+        - `bispec_cdm`
+        - `halo_cdm`
         - ⋯  (other data files)
       - `z1/`
         - `snapshot/`
           - `snapshot.*`
         - `powerspec_cdm`
+        - `bispec_cdm`
+        - `halo_cdm`
         - ⋯  (other data files)
     - ⋯  (other codes)
   - `0.0eV_HR/`
@@ -224,15 +230,16 @@ directory structure:
     - ⋯  (similar to `0.0eV/`)
 
 with the first-level directory labelling the simulation by the neutrino mass
-and one of ‘fiducial’ (512 Mpc/h box, 512³ particles), ‘HR’ (512 Mpc/h box,
-1024³ particles) or ‘1024Mpc’ (1024 Mpc/h box, 1024³ particles). The `ic`
-directories contain initial conditions in the form of a snapshot. The special
-`phase` file, providing the primordial random phases, is exclusive to the
-`0.0eV/ic` directory (all simulations share the same phases). Each snapshot
-(be it initial conditions or final results) is distributed across several
-files, as indicated by the asterisk in `snapshot.*`. Snapshots are only made
-available for GADGET-3, the reference simulation code employed for this
-project.
+and one of ‘fiducial’ (no suffix, 512 Mpc/h box, 512³ particles), ‘HR’
+(512 Mpc/h box, 1024³ particles) or ‘1024Mpc’ (1024 Mpc/h box,
+1024³ particles). The `ic` directories contain initial conditions in the form
+of a snapshot. The special `phase` file, providing the
+[primordial random phases](#primordial-phases), is exclusive to the `0.0eV/ic`
+directory (all simulations share the same phases). Each snapshot (be it
+initial conditions or final results) is distributed across several files, as
+indicated by the asterisk in `snapshot.*`. Simulation snapshots are only made
+available for GADGET-3, the reference simulation code employed for
+this project.
 
 The following subsections describe how to download various parts of the data.
 
@@ -256,7 +263,7 @@ neutrino particles.
 
 In total there are 24 simulation snapshots, corresponding to the 12
 simulations (see the section on
-[Data director structure](#data-directory-structure)) and two output
+[Data directory structure](#data-directory-structure)) and two output
 redshifts. You can download these one at a time, e.g.
 ```bash
 make data-snapshot-0.3eV-fiducial-z0
@@ -270,11 +277,11 @@ make data-snapshot-1024Mpc-z0      # all 1024Mpc z0 (0.0eV, 0.15eV)
 make data-snapshot-HR              # all HR (0.0eV z0, 0.0eV z1, 0.15eV z0, 0.15eV z1)
 make data-snapshot                 # all
 ```
-The easiest way to discover all of these is through auto-completion in the
-terminal (type `make data-snapshot-` and press tab twice). A single 0.0eV
-fiducial snapshot takes up 4 GB of disk space. Having massive neutrinos raises
-this by a factor of 2. The 1024Mpc or HR snapshots comes with another factor
-of 8.
+The easiest way to discover these is through auto-completion at the
+command-line (type `make data-snapshot-` and press tab twice). A single 0.0eV
+fiducial snapshot takes up 4 GB of disk space. Having massive neutrinos
+increases the data amount by a factor of 2. The 1024Mpc or HR snapshots come
+with another factor of 8.
 
 
 
@@ -285,7 +292,7 @@ the snapshots contain both matter and neutrino particles.
 
 In total there are 12 initial condition snapshots, corresponding to the 12
 simulations (see the section on
-[Data director structure](#data-directory-structure)). You can download these
+[Data directory structure](#data-directory-structure)). You can download these
 one at a time, e.g.
 ```bash
 make data-ic-0.3eV-fiducial
@@ -299,11 +306,11 @@ make data-ic-1024Mpc   # all 1024Mpc  (0.0eV, 0.15eV)
 make data-ic-HR        # all HR       (0.0eV, 0.15eV)
 make data-ic           # all
 ```
-The easiest way to discover all of these is through auto-completion in the
-terminal (type `make data-ic-` and press tab twice). A single 0.0eV fiducial
-initial condition snapshot takes up 4 GB of disk space. Having massive
-neutrinos raises this by a factor of 2. The 1024Mpc or HR initial condition
-snapshots comes with another factor of 8.
+The easiest way to discover these is through auto-completion at the
+command-line (type `make data-ic-` and press tab twice). A single 0.0eV
+fiducial initial condition snapshot takes up 4 GB of disk space. Having
+massive neutrinos increases the data amount by a factor of 2. The 1024Mpc or
+HR initial condition snapshots come with another factor of 8.
 
 
 
@@ -311,12 +318,12 @@ snapshots comes with another factor of 8.
 While the initial condition snapshots are code agnostic in principle, many
 cosmological simulation codes require initial conditions in a special format,
 e.g. due to the way neutrinos are handled. Besides the specification of the
-cosmology and simulation parameters, a set of primordial amplitudes and phases
-are further needed to specify the initial conditions. We use
-"[fixed](https://arxiv.org/abs/1603.05253)" amplitudes, leaving only the
-phases. These phases are available for download using
+[cosmology](#cosmology) and simulation parameters, a set of primordial
+amplitudes and phases are further needed to specify the initial conditions.
+We use "[fixed](https://arxiv.org/abs/1603.05253)" amplitudes, leaving only
+the phases. These phases are available for download using
 ```bash
-make data-phase
+make data-ic-phase
 ```
 taking up 2 GB of disk space. All simulations employ these same phases.
 For how to use these phases to generate matching initial conditions of
@@ -327,7 +334,7 @@ your own, see the [initial conditions demo](#initial-conditions).
 ## Cleanup
 Each `make` ‘build’ target has an associated ‘clean’ target which undoes the
 action. The name of the clean target is the same as the build target,
-prepended with `clean-`. For example
+prepended with `clean-`. For example:
 ```bash
 make clean-figure       # remove figure PDFs
 make clean-powerspec    # remove GADGET-3 power spectra
@@ -339,28 +346,28 @@ make clean-data-snapshot-0.0eV-1024Mpc
 make clean-data-snapshot-HR
 make clean-data-snapshot
 ```
-In addition, some clean targets exists that has no
+In addition, some clean targets exists that has no corresponding build target:
 ```bash
 make clean       # remove all PDFs and GADGET-3 power spectra
 make clean-data  # remove all downloaded data
 make distclean   # remove every generated file
 ```
-The easiest way to discover all of these is through auto-completion in the
-terminal (type `make clean-` and press tab twice).
+The easiest way to discover all of these is through auto-completion at the
+command-line (type `make clean-` and press tab twice).
 
 
 
 ## Required libraries and tools
 The generation of figures from the various data, as well as the power spectrum
 computations from the snapshots, requires the following libraries and tools to
-be installed on the system. All should be to be on the `PATH`.
+be installed on the system. All should be on the `PATH`.
 - Python 3.9.12
   - NumPy 1.21.5
   - SciPy 1.7.3
   - Matplotlib 3.3.4
   - [CLASS 2.7.2](https://github.com/lesgourg/class_public/tree/v2.7.2)
   - [Pylians3 729d74c8af324a77a02926c82b89f678856bfdfe](https://github.com/franciscovillaescusa/Pylians3/tree/729d74c8af324a77a02926c82b89f678856bfdfe)
-- LaTeX, e.g. TeX Live 2020.20210202-3
+- Complete LaTeX environment, e.g. TeX Live 2020.20210202-3
 - (GNU) Make 4.2.1
 - (GNU) wget 1.21.3
 - (GNU) tar 1.30
@@ -382,7 +389,7 @@ docker run --rm -it -v ${PWD}:/mnt jmddk/nucodecomp
 ```
 after which all of the above `make` commands are available. You can copy
 results produced within the running Docker container (say the `figure`
-directory) to your host filesystem using
+directory) to your host file system using
 ```bash
 cp -r figure /mnt/
 ```
@@ -394,9 +401,10 @@ this repository.
 ## Keeping the Git repository sane
 If you clone this repository and regenerate the figures in either the `figure`
 or `demo` directory, Git will detect and report changes to the PDF files due
-to differences in the metadata within the files. We thus do not want changes to
-the PDFs to count, but as they are committed, adding them to `.gitignore` does
-not help. Instead, do the following:
+to differences in the metadata within the files. We thus do not want Git to
+track changes to the PDFs, but as they are committed as part of the
+repository, adding them to `.gitignore` does not help. Instead, do the
+following:
 ```bash
 git update-index --assume-unchanged figure/*.pdf demo/*.pdf
 ```
