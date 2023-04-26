@@ -36,8 +36,8 @@ make clean-figure && python=/path/to/python make
 with `/path/to/python` the path to the Python 3 interpreter to use (see
 [Required libraries and tools](#required-libraries-and-tools) for required
 Python packages). The necessary data will be downloaded from
-[Zenodo](https://zenodo.org/), amounting to a 6 GB download that takes up
-18 GB of disk space once extracted. See the [Figures](#figures) section for
+[Zenodo](https://zenodo.org/), amounting to a 5 GB download that takes up
+20 GB of disk space once extracted. See the [Figures](#figures) section for
 further details.
 
 For computing power spectra from snapshots,
@@ -251,7 +251,7 @@ The data necessary to generate the figures can be downloaded via
 make data-figure
 ```
 This data contains various kinds of power spectra, bispectra and halo catalogs
-for the different simulations, codes and output redshifts, and takes up 18 GB
+for the different simulations, codes and output redshifts, and takes up 20 GB
 of disk space.
 
 
