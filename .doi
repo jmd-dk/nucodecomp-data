@@ -2,7 +2,7 @@
 doi_main = 10.5281/zenodo.7295229  # resolves to latest version
 
 # Figure data
-doi_data_figure = 10.5281/zenodo.7295164
+doi_data_figure = 10.5281/zenodo.7868184
 
 # Snapshot data
 doi_data_snapshot_fiducial          = 10.5281/zenodo.7295447
